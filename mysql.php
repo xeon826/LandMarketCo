@@ -53,7 +53,7 @@
 			if(!is_resource(self::$link) || empty(self::$link)){
 				if(($link =  mysqli_connect(self::$connection_info['host'], self::$connection_info['user'], self::$connection_info['pass'])) && mysqli_select_db($link, self::$connection_info['db'])){
 					self::$link = $link;
-					mysqli_set_charset('utf8');
+					mysqli_set_charset($link, 'utf8');
 				}else{
 					throw new Exception('Could not connect to MySQL database.');
 				}
@@ -70,9 +70,9 @@
 			$where = self::$where;
 			foreach($info as $row => $value){
 				if(empty($where)){
-					$where = sprintf("WHERE `%s`='%s'", $row, mysqli_real_escape_string($value));
+					$where = sprintf("WHERE `%s`='%s'", mysqli_real_escape_string($link, $value),$row );
 				}else{
-					$where .= sprintf(" %s `%s`='%s'", $type, $row, mysqli_real_escape_string($value));
+					$where .= sprintf(" %s `%s`='%s'", $type, $row, mysqli_real_escape_string($link, $value));
 				}
 			}
 			self::$where = $where;
@@ -168,14 +168,14 @@
 			if($return){
 				if(preg_match('/LIMIT 1/', $qry)){
 					$data = mysql_fetch_assoc($result);
-					mysql_free_result($result);
+					mysqli_free_result($result);
 					return $data;
 				}else{
 					$data = array();
 					while($row = mysql_fetch_assoc($result)){
 						$data[] = $row;
 					}
-					mysql_free_result($result);
+					mysqli_free_result($result);
 					return $data;
 				}
 			}
@@ -193,8 +193,8 @@
 			}
 			$sql = sprintf("SELECT %s FROM %s%s", $select, $table, self::extra());
 			self::set('last_query', $sql);
-			if(!($result = mysqli_query($sql))){
-				throw new Exception('Error executing MySQL query: '.$sql.'. MySQL error '.mysqli_errno().': '.mysqli_error());
+			if(!($result = mysqli_query($link, $sql))){
+				throw new Exception('Error executing MySQL query: '.$sql.'. MySQL error '.mysqli_errno($link).': '.mysqli_error($link));
 				$data = false;
 			}elseif(is_resource($result)){
 				$num_rows = mysql_num_rows($result);
@@ -212,7 +212,7 @@
 			}else{
 				$data = false;
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 			return $data;
 		}
 
@@ -222,14 +222,14 @@
 			$values = '';
 			foreach($data as $col => $value){
 				$fields .= sprintf("`%s`,", $col);
-				$values .= sprintf("'%s',", mysqli_real_escape_string($value));
+				$values .= sprintf("'%s',", mysqli_real_escape_string($link, $value));
 			}
 			$fields = substr($fields, 0, -1);
 			$values = substr($values, 0, -1);
 			$sql = sprintf("INSERT INTO %s (%s) VALUES (%s)", $table, $fields, $values);
 			self::set('last_query', $sql);
-			if(!mysqli_query($sql)){
-				throw new Exception('Error executing MySQL query: '.$sql.'. MySQL error '.mysqli_errno().': '.mysqli_error());
+			if(!mysqli_query($link, $sql)){
+				throw new Exception('Error executing MySQL query: '.$sql.'. MySQL error '.mysqli_errno($link).': '.mysqli_error($link));
 			}else{
 				self::set('insert_id', mysql_insert_id());
 				return true;
@@ -243,13 +243,13 @@
 				$link =& self::connection();
 				$update = '';
 				foreach($info as $col => $value){
-					$update .= sprintf("`%s`='%s', ", $col, mysqli_real_escape_string($value));
+					$update .= sprintf("`%s`='%s', ", $col, mysqli_real_escape_string($link, $value));
 				}
 				$update = substr($update, 0, -2);
 				$sql = sprintf("UPDATE %s SET %s%s", $table, $update, self::extra());
 				self::set('last_query', $sql);
-				if(!mysqli_query($sql)){
-					throw new Exception('Error executing MySQL query: '.$sql.'. MySQL error '.mysqli_errno().': '.mysqli_error());
+				if(!mysqli_query($link, $sql)){
+					throw new Exception('Error executing MySQL query: '.$sql.'. MySQL error '.mysqli_errno($link).': '.mysqli_error($link));
 				}else{
 					return true;
 				}
@@ -263,8 +263,8 @@
 				$link =& self::connection();
 				$sql = sprintf("DELETE FROM %s%s", $table, self::extra());
 				self::set('last_query', $sql);
-				if(!mysqli_query($sql)){
-					throw new Exception('Error executing MySQL query: '.$sql.'. MySQL error '.mysqli_errno().': '.mysqli_error());
+				if(!mysqli_query($link, $sql)){
+					throw new Exception('Error executing MySQL query: '.$sql.'. MySQL error '.mysqli_errno($link).': '.mysqli_error($link));
 				}else{
 					return true;
 				}
