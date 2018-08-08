@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <script src="jquery.min.js"></script>
+  <script src="index.js"></script>
+  <script src="main.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <title>Umbrella Manufacturing Co</title>
+</head>
+<div class="invoice-sign">
+  <div class="container">
+    <h1>Sign Invoice</h1>
+    <input placeholder="Supplier ID" class="supplier-id"></input>
+    <input placeholder="Product ID" class="product-id"></input>
+    <input placeholder="Number Received" class="num-received"></input>
+    <input placeholder="Purchase Date" class="purchase-date"></input>
+    <button class="createProduct">Sign</button></br>
+    <p>here</p>
+  </div>
+</div>
+<div class="loader-create">
+  <div class="container">
+    <h1>Purchase Inventory</h1>
+    <!-- <input placeholder="Name" class="name"></input> -->
+    <select data-action="prod_dropdown" class="custom-select">
+  </select>
+    <input placeholder="Starting Inventory" class="starting"></input>
+    <input placeholder="Inventory Received" class="received"></input>
+    <input placeholder="Vendor ID" class="vendorId"></input>
+    <input placeholder="Minimum Required" class="minimum-required"></input>
+    <button class="create-confirm">Create</button></br>
+    <p>here</p>
+  </div>
+</div>
+<body>
+  <div class="mod">
+  </div>
+  <!-- table -->
+  <h2>Inventory Management System</h2>
+  <!-- <a class="button addNew" href="/add-new-item.php">Add New Product</a>
+  <a class="button createProduct" href="/add-new-item.php">Purchase Inventory</a>
+  <a class="button signInvoice" href="/sign-invoice.php">Sign Invoice</a>
+  <a class="button generateInvoice" href="/sign-invoice.php">Generate Invoice</a>
+
+  </br>
+  <input autocomplete="off" class="query"></input>
+  <button class="search">search</button> -->
+  <p class="errorReturn"></p>
+  <div class="edit-wrapper">
+    <!-- <div class="dbi">
+      <i class="fas fa-database"></i>
+    </div> -->
+    <!-- <div class="paths">
+      <div class="f"></div>
+      <div class="s"></div>
+      <div class="t"></div>
+      <div class="r"></div>
+    </div> -->
+    <div class="edit-view">
+      <div data-action="view_products" class="edit view">
+        Products
+        <i class="fas fa-sitemap"></i>
+      </div>
+      <div data-action="view_incoming" class="edit view">
+        Incoming
+        <i class="fas fa-angle-double-left"></i>
+      </div>
+      <div data-action="view_outgoing" class="edit view">
+        Outgoing
+        <i class="fas fa-angle-double-right"></i>
+      </div>
+      <div data-action="view_vendors" class="edit view">
+        Vendors
+        <i class="fas fa-store-alt"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <div data-action="get_current_inv" class="view current-inventory">
+      Current Inventory
+    </div>
+    <div data-action="get_incoming" class="view incoming-purchases">
+      Incoming Purchases
+    </div>
+    <div data-action="get_outgoing" class="view outgoing-orders">
+      Outgoing Orders
+    </div>
+    <div data-action="get_reports" class="view reports">
+      Reports
+    </div>
+    <div class="view-edit edit-tables">
+      Manage
+    </div>
+
+  </div>
+  <main>
+  </main>
+  <div class="table-wrapper">
+    <!-- <table class="fl-table">
+    </table> -->
+  </div>
+</body>
+
+</html>
